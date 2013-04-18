@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+"""
+
+    Controls a relay based on the comparision of an id in the database
+    Useful for rfid-controled doors
+    To think this was a shell script a few days ago...
+
+    Copyright (C) 2013 TheOtherNet LLC
+    Copyright (C) 2013 David Francos Cuartero <dfrancos@theothernet.co.uk>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+    02110-1301, USA.
+
+"""
+import RPi.GPIO as GPIO
+import time
+import MySQLdb
+
+class DoorOpener(object):
+    """
+        Main dooropener class
+    """
+    def __init__(self):
+        """
+            Set up the gpio, launch the main bucle
+        """
+        self.database = MySQLdb.connect(
+            "localhost",
+            "root",
+            "root",
+            "lcdv"
+        )
+        self.pinout = 24
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.pinout, GPIO.OUT)
+
+    def open_door(self):
+        """
+            Puts the pin in high mode for 0.1 seconds
+            Enough to activate the doorlock
+        """
+        GPIO.output(self.pinout, GPIO.HIGH)
+        time.sleep(0.1)
+        GPIO.output(self.pinout, GPIO.LOW)
+        time.sleep(0.3)
+        return
+
+    def check_access(self, id_tarjeta):
+        """
+            Checks that the user has acess
+        """
+        fecha = time.strftime("%Y-%m-%d", time.gmtime())
+        cursor = self.database.cursor()
+        cursor.execute(
+            'Select * from members where id_tarjeta =' +
+            ' \'%s\' and fechaPago > \'%s\' and flagDisabled is null'
+            %(id_tarjeta, fecha)
+        )
+        result = cursor.fetchone()
+        if result:
+            return True
+        return False
+
+    def bucle(self):
+        """
+            Checks access every 0.3 seconds (waits for the raw_input,
+            so not a problem)
+            If access, opens door.
+        """
+        while True:
+            if self.check_access(raw_input()):
+                self.open_door()
+        GPIO.cleanup()
+
+if __name__ == "__main__":
+    DoorOpener().bucle()
