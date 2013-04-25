@@ -65,7 +65,7 @@ class DoorOpener(object):
         cursor = self.database.cursor()
         cursor.execute(
             'Select * from members where id_tarjeta =' +
-            ' \'%s\' and fechaPago > \'%s\' and flagDisabled is null'
+            ' \'%s\' and fechaPago > \'%s\' and flagDisabled is null and has_parking is not null'
             %(id_tarjeta, fecha)
         )
         result = cursor.fetchone()
