@@ -89,7 +89,8 @@ class Home_Controller extends Base_Controller {
 
         $fields = array(
             'dni', 'email', 'name', 'surname', 'fechapago',
-            'phone', 'address', 'status', 'id_tarjeta'
+            'phone', 'address', 'status', 'id_tarjeta', 'has_parking',
+            'comment', 'associateno', 'payment'
         );
 
         foreach ($fields as $field){
