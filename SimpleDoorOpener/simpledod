@@ -52,30 +52,35 @@ class DoorOpener(object):
             Puts the pin in high mode for 0.1 seconds
             Enough to activate the doorlock
         """
-        GPIO.output(self.pinout, GPIO.HIGH)
-        time.sleep(0.1)
-        GPIO.output(self.pinout, GPIO.LOW)
-        time.sleep(0.3)
-        return
+        try:
+            GPIO.output(self.pinout, GPIO.HIGH)
+            time.sleep(0.1)
+            GPIO.output(self.pinout, GPIO.LOW)
+            time.sleep(0.3)
+        except Exception, e:
+            self.log(e)
 
     def check_access(self, id_tarjeta):
         """
             Checks that the user has acess
         """
-        fecha = time.strftime("%Y-%m-%d", time.gmtime())
-        cursor = self.database.cursor()
-        query = 'Select * from members where id_tarjeta = \'%s\' and fechaPago <= \'%s\' and flagDisabled is null'  %(id_tarjeta, fecha)
-        cursor.execute(
-            query
-        )
-        if cursor.fetchone():
-            self.log("Opening door for card %s at time %s\n" %(id_tarjeta, fecha))
-            return True
-        self.log("Card %s not valid, not opening at time %s with query %s\n" %(fecha, id_tarjeta, query))
-        return False
+        try:
+            fecha = time.strftime("%Y-%m-%d", time.gmtime())
+            cursor = self.database.cursor()
+            query = 'Select * from members where id_tarjeta = \'%s\' and fechaPago <= \'%s\' and flagDisabled is null'  %(id_tarjeta, fecha)
+            cursor.execute(
+                query
+            )
+            if cursor.fetchone():
+                self.log("Opening door for card %s at time %s\n" %(id_tarjeta, fecha))
+                return True
+            self.log("Card %s not valid, not opening at time %s with query %s\n" %(fecha, id_tarjeta, query))
+            return False
+        except Exception, e:
+            self.log(e)
 
     def log(self, string):
-    	self.log_.write(string)
+        self.log_.write(string)
 
     def bucle(self):
         """
@@ -83,13 +88,19 @@ class DoorOpener(object):
             so not a problem)
             If access, opens door.
         """
-        try:
-            while True:
+        while True:
+            try:
                 if self.check_access(raw_input()):
                     self.open_door()
-        except Exception, e:
-            with open('~/simpledod.errors', 'w') as logfile:
-                logfile.write(e)
+            except Exception, e:
+                self.log(e)
+
+def doorOpener():
+    DoorOpener().bucle()
 
 if __name__ == "__main__":
-    DoorOpener().bucle()
+    while True:
+        try:
+            doorOpener()
+        except Exception, e:
+            pass
