@@ -10,17 +10,17 @@
     <script src="/js/html5-canvas-bar-graph.js"></script>
 </head>
 <body>
+<?php if ($titulo === true){?>
+    <header style="text-align:center; margin-bottom:50px;">
+        <h1> <a href="/"> {{ $site->name  }} </a></h1>
+    </header>
 <?php
+        }
 $classes = array ( 0, 1, 2);
 foreach ($classes as $elem) {
 ?>
     <div class="container">
         <h2><?php echo Estado::find($elem)->nombre; ?> </h2>
-<?php if ($titulo === true){?>
-        <header style="text-align:center; margin-bottom:50px;">
-            <h1> <a href="/"> {{ $site->name  }} </a></h1>
-        </header>
-        <?php } ?>
         <div class="span5">
             <h3> Estadisticas por dia </h3>
             <canvas id="days_<?php echo $elem;?>"></canvas>
