@@ -69,9 +69,9 @@ class DoorOpener(object):
             query
         )
         if cursor.fetchone():
-            print("Opening door for card %s at time %s" %(fecha, id_tarjeta))
+            self.log("Opening door for card %s at time %s\n" %(id_tarjeta, fecha))
             return True
-        self.log("Card %s not valid, not opening at time %s with query %s" %(fecha, id_tarjeta, query))
+        self.log("Card %s not valid, not opening at time %s with query %s\n" %(fecha, id_tarjeta, query))
         return False
 
     def log(self, string):
@@ -90,7 +90,6 @@ class DoorOpener(object):
         except Exception, e:
             with open('~/simpledod.errors', 'w') as logfile:
                 logfile.write(e)
-        
 
 if __name__ == "__main__":
     DoorOpener().bucle()
