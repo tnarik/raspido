@@ -96,8 +96,8 @@ foreach ($props as $name => $prop){ ?>
     <label class="control-label" for="has_parking"> ¿Tiene acceso al parking?
     </label>
     <div class="controls">
-        <input type="checkbox" name=has_parking
-                value="<?php echo $user?$user->has_parking:'false';?>"/>
+        <input type="checkbox" name=has_parking <?php echo $user->has_parking?"checked":""; ?>
+		 value=1 />
     </div>
 </div>
 

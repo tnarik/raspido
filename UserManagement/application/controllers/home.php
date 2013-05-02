@@ -93,6 +93,8 @@ class Home_Controller extends Base_Controller {
             'comment', 'associateno', 'payment'
         );
 
+        $user->has_parking = null; // Nullify this.
+
         foreach ($fields as $field){
             if (Input::has($field)){
                 $user->$field = $_POST[$field];
