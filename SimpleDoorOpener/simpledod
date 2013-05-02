@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 """
 
     Controls a relay based on the comparision of an id in the database
@@ -36,6 +36,7 @@ class DoorOpener(object):
         """
             Set up the gpio, launch the main bucle
         """
+        self.log_ = open('/home/lcdv/foo.log', 'w')
         self.database = MySQLdb.connect(
             "localhost",
             "root",
@@ -63,15 +64,18 @@ class DoorOpener(object):
         """
         fecha = time.strftime("%Y-%m-%d", time.gmtime())
         cursor = self.database.cursor()
+        query = 'Select * from members where id_tarjeta = \'%s\' and fechaPago <= \'%s\' and flagDisabled is null'  %(id_tarjeta, fecha)
         cursor.execute(
-            'Select * from members where id_tarjeta =' +
-            ' \'%s\' and fechaPago > \'%s\' and flagDisabled is null and has_parking is not null'
-            %(id_tarjeta, fecha)
+            query
         )
-        result = cursor.fetchone()
-        if result:
+        if cursor.fetchone():
+            print("Opening door for card %s at time %s" %(fecha, id_tarjeta))
             return True
+        self.log("Card %s not valid, not opening at time %s with query %s" %(fecha, id_tarjeta, query))
         return False
+
+    def log(self, string):
+    	self.log_.write(string)
 
     def bucle(self):
         """
@@ -79,10 +83,14 @@ class DoorOpener(object):
             so not a problem)
             If access, opens door.
         """
-        while True:
-            if self.check_access(raw_input()):
-                self.open_door()
-        GPIO.cleanup()
+        try:
+            while True:
+                if self.check_access(raw_input()):
+                    self.open_door()
+        except Exception, e:
+            with open('~/simpledod.errors', 'w') as logfile:
+                logfile.write(e)
+        
 
 if __name__ == "__main__":
     DoorOpener().bucle()
