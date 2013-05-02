@@ -140,6 +140,34 @@ class Home_Controller extends Base_Controller {
                     '=',
                     '1'
                 );
+            } elseif ($status == 3) {
+                $books = DB::table('access_log')->where(
+                    'status',
+                    '=',
+                    "2"
+                ); // Get all the books.
+                foreach ($books->get() as $book){
+                    if (count(DB::table('access_log')->where(
+                            'status',
+                            '=',
+                            "2"
+                        )->where(
+                            'id_tarjeta',
+                            '=',
+                            $book->id_tarjeta
+                        )->get()
+                    ) % 2 == 0 ) {
+                        $bad_users[] = $book->id_tarjeta;
+                    }
+                }
+                $users = Users::where(
+                    'id_tarjeta',
+                    'in',
+                    "(".
+                        join(array_unique($bad_users), ',').
+                    ")"
+                );
+
             }
             if (Input::has('search')){
                 $users = $users->where(
