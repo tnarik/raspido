@@ -141,6 +141,7 @@ class Home_Controller extends Base_Controller {
                     '1'
                 );
             } elseif ($status == 3) {
+                $bad_users = ['q'];
                 $books = DB::table('access_log')->where(
                     'status',
                     '=',
@@ -156,16 +157,13 @@ class Home_Controller extends Base_Controller {
                             '=',
                             $book->id_tarjeta
                         )->get()
-                    ) % 2 == 0 ) {
+                    ) % 2 != 0 ) {
                         $bad_users[] = $book->id_tarjeta;
                     }
                 }
-                $users = Users::where(
+                $users = Member::where_in(
                     'id_tarjeta',
-                    'in',
-                    "(".
-                        join(array_unique($bad_users), ',').
-                    ")"
+                    array_unique($bad_users)
                 );
 
             }
