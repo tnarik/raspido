@@ -36,7 +36,7 @@ class DoorOpener(object):
         """
             Set up the gpio, launch the main bucle
         """
-        self.log_ = open('/home/lcdv/foo.log', 'w')
+        self.log_ = open('~/simpledod.log', 'w')
         self.database = MySQLdb.connect(
             "localhost",
             "root",
