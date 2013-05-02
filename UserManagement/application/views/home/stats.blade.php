@@ -20,7 +20,7 @@ $classes = array ( 0, 1, 2);
 foreach ($classes as $elem) {
 ?>
     <div class="container">
-        <h2><?php echo Estado::find($elem)->nombre; ?> </h2>
+        <h2 style="text-transform:uppercase"><?php echo Estado::find($elem)->nombre; ?> </h2>
         <div class="span5">
             <h3> Estadisticas por dia </h3>
             <canvas id="days_<?php echo $elem;?>"></canvas>
