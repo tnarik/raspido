@@ -92,6 +92,8 @@ class DoorOpener(object):
             try:
                 if self.check_access(raw_input()):
                     self.open_door()
+                    cursor = self.database.cursor()
+                    cursor.execute('Insert into access_log (id_tarjeta, status) values (\'%s\', 0)' %(id_tarjeta))
             except Exception, e:
                 self.log(e)
 
