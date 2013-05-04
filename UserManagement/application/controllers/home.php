@@ -10,6 +10,13 @@ class Home_Controller extends Base_Controller {
         return Redirect::to('/');
     }
 
+    public function action_log()
+    {
+        return "<pre>".
+            file_get_contents('/tmp/simpledod.log')
+            ."</pre>";
+    }
+
     public function action_registro($estado)
     {
        // Para sacar el nombre: Estado::find($estado)->nombre;
