@@ -100,11 +100,19 @@ class Home_Controller extends Base_Controller {
             'comment', 'associateno', 'payment'
         );
 
-        $user->has_parking = null; // Nullify this.
+
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $user->has_parking = null; // Nullify this.
+        }
 
         foreach ($fields as $field){
             if (Input::has($field)){
-                $user->$field = $_POST[$field];
+                if ($field == "id_tarjeta" && $_POST[$field] == "") {
+                    $user->$field = null;
+                } else {
+                    $user->$field = $_POST[$field];
+                }
             }
         }
 

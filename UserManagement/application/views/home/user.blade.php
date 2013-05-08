@@ -96,8 +96,7 @@ foreach ($props as $name => $prop){ ?>
     <label class="control-label" for="has_parking"> ¿Tiene acceso al parking?
     </label>
     <div class="controls">
-        <input type="checkbox" value=1 name=has_parking <?php echo $user->has_parking?"checked":""; ?>
-		 value=1 />
+        <input type="checkbox" name=has_parking <?php echo $user->has_parking?"checked":""; ?> value=1 />
     </div>
 </div>
 
@@ -116,7 +115,7 @@ if ($show_stats && $user){
 <br/><button class="btn btn-success btn-big"
         onclick="assign_card(); return false"> Asociar tarjeta </button><br/>
     <button class="btn btn-success btn-big"
-            onclick="assign_card(); return false"> Anular tarjeta </button><br/>
+            onclick="unassign_card(); return false"> Anular tarjeta </button><br/>
     <br/>
 <?php echo $user->id_tarjeta? "<div class='alert alert-info'>".
 "Tarjeta asociada actualmente : ". $user->id_tarjeta ."</div>" : ""; ?>
