@@ -19,13 +19,14 @@ class Home_Controller extends Base_Controller {
 
     public function action_registro($estado)
     {
+       date_default_timezone_set('GMT');
        // Para sacar el nombre: Estado::find($estado)->nombre;
        DB::table('access_log')->insert(
            array(
                'id_tarjeta' => $_POST['id'],
                'extra_data' => $_POST['extra'],
                'status'     => $estado,
-               'date'       => date('Y/m/d H:M:s')
+               'date'       => date('Y-m-d H:i:s')
            )
        );
     }

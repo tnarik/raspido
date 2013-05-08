@@ -145,9 +145,14 @@ if ($show_stats && $user){
 <div style="height:100px; overflow-y:scroll;">
 <?php
     $logs = DB::table('access_log')->where('id_tarjeta', '=', $user->id_tarjeta);
+    setlocale(LC_TIME, 'es_ES'); 
+    $logs_ = array(); 
     foreach ($logs->get() as $log){
+        $logs_[] = $log;
+    }
+    foreach (array_reverse($logs_) as $log) {
         $estado = Estado::find($log->status)->nombre;
-        echo "Registrado " . $estado . " ($log->extra_data) en " . $log->date . "<br/>";
+        echo "Registrado " . $estado . " ($log->extra_data) en " . gmstrftime('%H:%M:%S', strtotime($log->date) +7200 ) . "<br/>";
     }
 
 ?>
