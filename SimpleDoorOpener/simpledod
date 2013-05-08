@@ -67,7 +67,7 @@ class DoorOpener(object):
         try:
             fecha = time.strftime("%Y-%m-%d", time.gmtime())
             cursor = self.database.cursor()
-            query = 'Select * from members where id_tarjeta = \'%s\' and fechaPago <= \'%s\' and flagDisabled is null'  %(id_tarjeta, fecha)
+            query = 'Select * from members where id_tarjeta = \'%s\' and fechaPago >= \'%s\' and flagDisabled is null'  %(id_tarjeta, fecha)
             cursor.execute(
                 query
             )
