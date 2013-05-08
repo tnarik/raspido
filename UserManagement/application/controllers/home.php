@@ -44,7 +44,11 @@ class Home_Controller extends Base_Controller {
     public function action_delete($id)
     {
         if (Auth::check()){
-            Member::find($id)->delete();
+            $member = Member::find($id);
+            DB::table('access_log')->where(
+                'id_tarjeta', "=", $member->id_tarjeta 
+            )->delete();
+            $member->delete();
         }
     }
 
