@@ -36,7 +36,7 @@ class DoorOpener(object):
         """
             Set up the gpio, launch the main bucle
         """
-        self.log_ = open('~/simpledod.log', 'w')
+        self.log_ = open('/tmp/simpledod.log', 'w')
         self.database = MySQLdb.connect(
             "localhost",
             "root",
@@ -80,7 +80,9 @@ class DoorOpener(object):
             self.log(e)
 
     def log(self, string):
+        print(string)
         self.log_.write(string)
+        self.log_.flush()
 
     def bucle(self):
         """
@@ -97,12 +99,10 @@ class DoorOpener(object):
             except Exception, e:
                 self.log(e)
 
-def doorOpener():
-    DoorOpener().bucle()
-
 if __name__ == "__main__":
     while True:
         try:
-            doorOpener()
+            DoorOpener().bucle()
         except Exception, e:
+            print e
             pass
