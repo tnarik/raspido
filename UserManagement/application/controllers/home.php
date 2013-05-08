@@ -104,15 +104,12 @@ class Home_Controller extends Base_Controller {
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $user->has_parking = null; // Nullify this.
+            $user->id_tarjeta = null; // Nullify this.
         }
 
         foreach ($fields as $field){
             if (Input::has($field)){
-                if ($field == "id_tarjeta" && $_POST[$field] == "") {
-                    $user->$field = null;
-                } else {
-                    $user->$field = $_POST[$field];
-                }
+                $user->$field = $_POST[$field];
             }
         }
 

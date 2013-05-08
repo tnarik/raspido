@@ -127,7 +127,7 @@ if ($show_stats && $user){
     <button onclick="validar(); return false" class="btn btn-warning"> Validar usuario </button>
     <?php
         echo "</div>";
-    } elseif ($user->fechapago < date('yyyy-mm-dd') ) {
+    } elseif ($user->fechapago < date('Y-m-d') ) {
 ?>
 <div class="alert alert-danger"> Este usuario tiene un pago pendiente
     <label> Introduzca una nueva fecha de vencimiento del pago</label>
@@ -136,7 +136,8 @@ if ($show_stats && $user){
 
 <?
     } else{
-        echo "<div class='alert alerf-info'>Usuario pagado hasta: $user->fechapago</div>";
+        echo "<div class='alert alerf-info'>Usuario pagado hasta: $user->fechapago<br/><br/>";
+    	echo '<input type="date" name=fechapago value="'.$user->fechapago.'" style="display:-webkit-inline-box"></div>';
     }
 ?>
 </form>

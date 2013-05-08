@@ -63,7 +63,7 @@
             <div role="main" class="span4">
                 <fieldset>
                     <legend>Apertura remota de puerta</legend>
-                    <a href="/home/opendoor">
+                    <a href="/home/opendoor" onclick="if(!confirm('¿Está seguro de que quiere abrir la puerta?')){ return false; }" >
                         <div class="well" style="text-align:right">
                             <h1 style="float:left; padding-top:30px"> Abrir  </h1>
                             <img style="text-align:right" src="/img/unlock.png" />
