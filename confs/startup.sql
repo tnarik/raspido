@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.24, for debian-linux-gnu (i686)
+-- MySQL dump 10.13  Distrib 5.5.30, for debian-linux-gnu (armv7l)
 --
 -- Host: localhost    Database: lcdv
 -- ------------------------------------------------------
--- Server version	5.5.24-3
+-- Server version 5.5.30-1.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -83,12 +83,13 @@ CREATE TABLE `members` (
   `surname` text,
   `fechaPagado` date DEFAULT NULL,
   `fechaPago` date DEFAULT NULL,
-  `comment` text`,
-  `payment` text`,
-  `associateno` text`,
-  `has_parking`
+  `comment` text,
+  `payment` text,
+  `associateno` text,
+  `has_parking` int(11) DEFAULT NULL,
+  `flagDisabled` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +114,7 @@ CREATE TABLE `sites` (
   `admin_email` text,
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +144,7 @@ CREATE TABLE `users` (
   `phone` text,
   `address` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
